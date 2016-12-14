@@ -1,5 +1,3 @@
-import classNames from 'classnames';
-
 class TierPlan extends React.Component {
   getIsCurrent() {
     return this.props.isCurrent;

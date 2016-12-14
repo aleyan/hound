@@ -25,6 +25,7 @@ import React from 'react';
 import ReactAddonsUpdate from 'react-addons-update';
 import _ from 'lodash';
 import $ from 'jquery';
+import classNames from 'classnames';
 
 const app = window.app = global.app = {};
 
@@ -32,6 +33,7 @@ app.React = window.React = global.React = React;
 app.ReactAddonsUpdate = window.ReactAddonsUpdate = global.ReactAddonsUpdate = ReactAddonsUpdate;
 app._ = window._ = global._ = _;
 app.$ = window.$ = global.$ = $;
+app.classNames = window.classNames = global.classNames = classNames;
 
 app.Ajax = Ajax;
 

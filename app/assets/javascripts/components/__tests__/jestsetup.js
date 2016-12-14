@@ -9,6 +9,9 @@ global._ = _;
 import $ from 'jquery';
 global.$ = $;
 
+import classNames from 'classnames';
+global.classNames = classNames;
+
 const Hound = window.Hound = global.Hound = {
   settings: {
     placeholder: "placeholder"
