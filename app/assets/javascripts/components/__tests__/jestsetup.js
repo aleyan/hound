@@ -6,6 +6,9 @@ global.React = React;
 import _ from 'lodash';
 global._ = _;
 
+import $ from 'jquery';
+global.$ = $;
+
 const Hound = window.Hound = global.Hound = {
   settings: {
     placeholder: "placeholder"
