@@ -1,4 +1,4 @@
-import RepoList from '../../repo_list.js';
+import RepoList from '../repo_list.js';
 
 it('renders a list of repos appropriately', () => {
   const repos = [

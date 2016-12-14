@@ -1,4 +1,4 @@
-import RepoToolsSearch from '../../repo_tools_search.js';
+import RepoToolsSearch from '../repo_tools_search.js';
 
 it('renders appropriately', () => {
   const onSearchInput = jest.genMockFunction();

@@ -1,4 +1,4 @@
-import ReposContainer from '../../repos_container.js';
+import ReposContainer from '../repos_container.js';
 
 it('renders appropriately', () => {
   const onRefreshClicked = jest.genMockFunction();

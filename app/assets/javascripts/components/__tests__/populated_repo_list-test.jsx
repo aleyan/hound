@@ -1,6 +1,6 @@
-import ReposView from '../../repos_view.js';
+import PopulatedRepoList from '../populated_repo_list.js';
 
-it('renders appropriately', () => {
+it('renders a list of repos appropriately', () => {
   const organizations = [
     { id: 1, name: "Test org" }
   ]
@@ -14,15 +14,15 @@ it('renders appropriately', () => {
     }
   ]
 
+  const onRepoClicked = jest.genMockFunction();
+
   const wrapper = shallow(
-    <ReposView
-      isSyncing={false}
-      organizations={organizations}
+    <PopulatedRepoList
       repos={repos}
-      filterTerm={""}
-      onRepoClicked={(event) => onRepoClicked}
+      onRepoClicked={onRepoClicked}
       isProcessingId={null}
-     />
+      filterTerm={""}
+    />
   );
   expect(wrapper).toMatchSnapshot();
 });

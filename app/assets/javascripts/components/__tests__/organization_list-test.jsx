@@ -1,6 +1,6 @@
-import PopulatedRepoList from '../../populated_repo_list.js';
+import OrganizationsList from '../organizations_list.js';
 
-it('renders a list of repos appropriately', () => {
+it('renders a list of organizations appropriately', () => {
   const organizations = [
     { id: 1, name: "Test org" }
   ]
@@ -17,11 +17,12 @@ it('renders a list of repos appropriately', () => {
   const onRepoClicked = jest.genMockFunction();
 
   const wrapper = shallow(
-    <PopulatedRepoList
+    <OrganizationsList
+      organizations={organizations}
       repos={repos}
+      filterTerm={""}
       onRepoClicked={onRepoClicked}
       isProcessingId={null}
-      filterTerm={""}
     />
   );
   expect(wrapper).toMatchSnapshot();

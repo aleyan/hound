@@ -1,4 +1,4 @@
-import TierPlan from '../../tier_plan.js';
+import TierPlan from '../tier_plan.js';
 
 it('renders appropriately (current plan)', () => {
   const plan = {

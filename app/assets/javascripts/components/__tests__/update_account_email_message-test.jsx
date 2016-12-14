@@ -1,8 +1,8 @@
-import UpdateAccountEmail from '../../update_account_email.js';
+import UpdateAccountEmailMessage from '../update_account_email_message.js';
 
 it('renders appropriately', () => {
   const wrapper = shallow(
-    <UpdateAccountEmail
+    <UpdateAccountEmailMessage
       addressChanged={false}
     />
   );

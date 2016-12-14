@@ -6,9 +6,9 @@
     "build": "webpack --config webpack.config.babel.js",
     "build:watch": "webpack -w --config webpack.config.babel.js",
     "build:prod": "webpack -p --config webpack.config.babel.js",
-    "test": "jest app/assets/javascripts/components/__tests__/snapshot/*-test.jsx",
-    "test:watch": "jest --watch app/assets/javascripts/components/__tests__/snapshot/*-test.jsx",
-    "test:coverage": "jest --coverage app/assets/javascripts/components/__tests__/snapshot/*-test.jsx"
+    "test": "jest app/assets/javascripts/components/__tests__/*-test.jsx",
+    "test:watch": "jest --watch app/assets/javascripts/components/__tests__/*-test.jsx",
+    "test:coverage": "jest --coverage app/assets/javascripts/components/__tests__/*-test.jsx"
   },
   "engines": {
     "node": "7.1",

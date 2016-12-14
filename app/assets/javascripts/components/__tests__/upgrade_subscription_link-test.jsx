@@ -1,4 +1,4 @@
-import UpgradeSubscriptionLink from '../../upgrade_subscription_link.js';
+import UpgradeSubscriptionLink from '../upgrade_subscription_link.js';
 
 it('renders appropriately', () => {
   const repo = {
