@@ -11,7 +11,7 @@ it('renders a list of repos appropriately', () => {
     }
   ]
 
-  const onRepoClicked = jest.genMockFunction();
+  const onRepoClicked = jest.fn();
 
   const wrapper = shallow(
     <RepoList

@@ -1,7 +1,7 @@
 import ReposContainer from '../repos_container.js';
 
 it('renders appropriately', () => {
-  const onRefreshClicked = jest.genMockFunction();
+  const onRefreshClicked = jest.fn();
 
   const wrapper = shallow(
     <ReposContainer

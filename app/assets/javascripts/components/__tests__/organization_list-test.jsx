@@ -14,7 +14,7 @@ it('renders a list of organizations appropriately', () => {
     }
   ]
 
-  const onRepoClicked = jest.genMockFunction();
+  const onRepoClicked = jest.fn();
 
   const wrapper = shallow(
     <OrganizationsList

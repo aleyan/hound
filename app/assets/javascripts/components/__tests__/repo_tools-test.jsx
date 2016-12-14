@@ -3,9 +3,9 @@ import RepoTools from '../repo_tools.js';
 it('renders appropriately without Show Private button (not syncing)', () => {
   const has_private_access = true;
 
-  const onSearchInput = jest.genMockFunction();
-  const onRefreshClicked = jest.genMockFunction();
-  const onPrivateClicked = jest.genMockFunction();
+  const onSearchInput = jest.fn();
+  const onRefreshClicked = jest.fn();
+  const onPrivateClicked = jest.fn();
 
   const wrapper = shallow(
     <RepoTools

@@ -9,7 +9,7 @@ it('renders a button appropriately', () => {
     }
   }
 
-  const onRepoClicked = jest.genMockFunction();
+  const onRepoClicked = jest.fn();
 
   const wrapper = shallow(
     <RepoActivationButton

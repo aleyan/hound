@@ -9,7 +9,7 @@ it('renders an organization with ID appropriately (no repo processing)', () => {
     {id: 1, name: "Test repo"}
   ]
 
-  const onRepoClicked = jest.genMockFunction();
+  const onRepoClicked = jest.fn();
 
   const wrapper = shallow(
     <Organization
