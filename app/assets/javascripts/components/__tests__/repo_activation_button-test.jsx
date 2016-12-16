@@ -58,3 +58,27 @@ it('renders a disabled button appropriately for admin repos', () => {
   );
   expect(wrapper).toMatchSnapshot();
 });
+
+it('calls the click handler appropriately', () => {
+  const repo = {
+    id: 1,
+    admin: true,
+    name: "Test repo",
+    owner: {
+      id: 1
+    }
+  }
+
+  const clickHandler = sinon.spy();
+
+  const wrapper = shallow(
+    <RepoActivationButton
+      repo={repo}
+      onRepoClicked={clickHandler}
+      isProcessingId={null}
+    />
+  );
+
+  wrapper.find('button').simulate('click');
+  expect(clickHandler.calledWith(repo.id)).toBe(true);
+});

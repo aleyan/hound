@@ -12,6 +12,9 @@ global.$ = $;
 import classNames from 'classnames';
 global.classNames = classNames;
 
+import sinon from 'sinon';
+global.sinon = sinon;
+
 const Hound = window.Hound = global.Hound = {
   settings: {
     placeholder: "placeholder"
