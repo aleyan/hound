@@ -81,5 +81,6 @@ it('calls the click handler appropriately', () => {
 
   wrapper.find('button').simulate('click');
   expect(clickHandler.calledWith(repo.id)).toBe(true);
-  // expect(clickHandler.calledOn(RepoActivationButton)).toBe(true); FIXME
+  // const compInstance = wrapper.instance();
+  // expect(clickHandler.calledOn(compInstance)).toBe(true); FIXME
 });
