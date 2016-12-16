@@ -12,7 +12,6 @@ describe UsersController do
         {
           id: user.id,
           username: user.username,
-          card_exists: false,
           refreshing_repos: user.refreshing_repos
         }.to_json
       )
