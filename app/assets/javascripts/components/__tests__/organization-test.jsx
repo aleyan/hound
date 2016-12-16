@@ -9,14 +9,12 @@ it('renders an organization with ID appropriately (no repo processing)', () => {
     {id: 1, name: "Test repo"}
   ]
 
-  const onRepoClicked = jest.fn();
-
   const wrapper = shallow(
     <Organization
       name={org.name}
       key={org.id}
       repos={repos}
-      onRepoClicked={onRepoClicked}
+      onRepoClicked={jest.fn()}
       filterTerm={""}
       isProcessingId={null}
     />

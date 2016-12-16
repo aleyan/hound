@@ -15,14 +15,12 @@ it('renders a list of organizations appropriately', () => {
     }
   ]
 
-  const onRepoClicked = jest.fn();
-
   const wrapper = shallow(
     <OrganizationsList
       organizations={organizations}
       repos={repos}
       filterTerm={""}
-      onRepoClicked={onRepoClicked}
+      onRepoClicked={jest.fn()}
       isProcessingId={null}
     />
   );
@@ -45,14 +43,12 @@ it('filters a list of organizations appropriately', () => {
     }
   ]
 
-  const onRepoClicked = jest.fn();
-
   const wrapper = mount(
     <OrganizationsList
       organizations={organizations}
       repos={repos}
       filterTerm={""}
-      onRepoClicked={onRepoClicked}
+      onRepoClicked={jest.fn()}
       isProcessingId={null}
     />
   );
@@ -83,14 +79,12 @@ it('filters a list of organizations appropriately', () => {
     }
   ]
 
-  const onRepoClicked = jest.fn();
-
   const wrapper = mount(
     <OrganizationsList
       organizations={organizations}
       repos={repos}
       filterTerm={""}
-      onRepoClicked={onRepoClicked}
+      onRepoClicked={jest.fn()}
       isProcessingId={null}
     />
   );
