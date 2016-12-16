@@ -69,7 +69,7 @@ it('calls the click handler appropriately', () => {
     }
   }
 
-  const clickHandler = sinon.spy();
+ const clickHandler = sinon.spy();
 
   const wrapper = shallow(
     <RepoActivationButton
@@ -81,4 +81,5 @@ it('calls the click handler appropriately', () => {
 
   wrapper.find('button').simulate('click');
   expect(clickHandler.calledWith(repo.id)).toBe(true);
+  // expect(clickHandler.calledOn(RepoActivationButton)).toBe(true); FIXME
 });
