@@ -2,7 +2,7 @@ require "rails_helper"
 
 feature "User rebuilds a pull request" do
   scenario "from the builds page" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     user = create(:user, token_scopes: "public_repo,user:email")
     repo = create(:membership, user: user).repo
     build = create(:build, repo: repo)
