@@ -2,7 +2,7 @@ require "rails_helper"
 
 feature "Account" do
   scenario "user without Stripe Customer ID" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     user = create(:user, stripe_customer_id: nil)
 
     sign_in_as(user)
@@ -60,7 +60,7 @@ feature "Account" do
   end
 
   scenario "user with a subscription views account page" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     user = create(:user, stripe_customer_id: stripe_customer_id)
     create(:subscription, user: user)
 
@@ -82,7 +82,7 @@ feature "Account" do
   end
 
   scenario "user with discounted-amount subscription views account page" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     user = create(:user, stripe_customer_id: stripe_customer_id)
     create(:subscription, user: user)
 
@@ -104,7 +104,7 @@ feature "Account" do
   end
 
   scenario "user with discounted-percentage subscription views account page" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     user = create(:user, stripe_customer_id: stripe_customer_id)
     create(:subscription, user: user)
 
@@ -126,7 +126,7 @@ feature "Account" do
   end
 
   scenario "user sees paid repo usage" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     user = create(:user)
     paid_repo = create(:repo, users: [user])
     create(:build, repo: paid_repo)
