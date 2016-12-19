@@ -81,36 +81,30 @@ describe SubscriptionsController, "#create" do
 
   describe "#update" do
     it "creates a subscription" do
-      GithubApi.client = Octokit::Client
-      hook_url = "http://#{ENV['HOST']}/builds"
-      user = create(:user, :stripe)
-      membership = create(:membership, user: user)
-      tier = Tier.new(user)
-      new_plan = tier.next.id
-      plan = tier.current.id
-      repo = membership.repo
-      token = "letmein"
-      stub_customer_find_request(user.stripe_customer_id)
-      stub_sign_in(user)
-      stub_hook_creation_request(repo.name, hook_url, token)
-      stub_subscription_create_request(plan: plan, repo_ids: repo.id)
-      stub_subscription_update_request(plan: new_plan, repo_ids: repo.id)
+      repo = instance_double(
+        Repo,
+        as_json: { active: true },
+        name: "TEST_REPO_NAME",
+        private?: true,
+      )
+      repo_activator = instance_double(RepoActivator, activate: true)
+      repo_subscriber = instance_double(RepoSubscriber)
+      repos = class_double(Repo, find_by: repo)
+      user = instance_double(
+        User,
+        email: "TEST_USER_EMAIL",
+        repos: repos,
+        token: "TEST_USER_TOKEN",
+      )
+      users = class_double(User, first: user)
+      allow(RepoActivator).to receive(:new).and_return(repo_activator)
+      allow(RepoSubscriber).to receive(:subscribe).and_return(repo_subscriber)
+      allow(User).to receive(:where).and_return(users)
 
-      put :update, repo_id: repo.id
+      put :update, repo_id: 1
 
       expect(response).to have_http_status(:created)
-      expect(JSON.parse(response.body)).to include(
-        "admin" => true,
-        "active" => true,
-        "full_plan_name" => "Public Repo",
-        "id" => 1,
-        "in_organization" => false,
-        "owner" => nil,
-        "price_in_cents" => 0,
-        "price_in_dollars" => 0,
-        "private" => false,
-        "stripe_subscription_id" => "sub_488ZZngNkyRMiR",
-      )
+      expect(JSON.parse(response.body)).to eql("active" => true)
     end
 
     context "when the subscription cannot be created" do
