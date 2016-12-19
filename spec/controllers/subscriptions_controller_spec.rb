@@ -109,21 +109,29 @@ describe SubscriptionsController, "#create" do
 
     context "when the subscription cannot be created" do
       it "returns 'Bad Gateway'" do
-        GithubApi.client = Octokit::Client
-        hook_id = 1
-        hook_url = "http://#{ENV['HOST']}/builds"
-        user = create(:user, :stripe)
-        membership = create(:membership, user: user)
-        plan = Tier.new(user).current.id
-        repo = membership.repo
-        token = "letmein"
-        stub_customer_find_request(user.stripe_customer_id)
-        stub_failed_subscription_create_request(plan)
-        stub_sign_in(user)
-        stub_hook_creation_request(repo.name, hook_url, token)
-        stub_hook_removal_request(repo.name, hook_id)
+        repo = instance_double(
+          Repo,
+          as_json: { active: true },
+          name: "TEST_REPO_NAME",
+          private?: true,
+        )
+        repo_activator = instance_double(
+          RepoActivator,
+          activate: false,
+          deactivate: true,
+        )
+        repos = class_double(Repo, find_by: repo)
+        user = instance_double(
+          User,
+          email: "TEST_USER_EMAIL",
+          repos: repos,
+          token: "TEST_USER_TOKEN",
+        )
+        users = class_double(User, first: user)
+        allow(RepoActivator).to receive(:new).and_return(repo_activator)
+        allow(User).to receive(:where).and_return(users)
 
-        put :update, repo_id: repo.id
+        put :update, repo_id: 1
 
         expect(response).to have_http_status(:bad_gateway)
       end
