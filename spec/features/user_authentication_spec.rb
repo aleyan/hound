@@ -2,10 +2,9 @@ require "rails_helper"
 
 feature 'User authentication' do
   scenario "existing user signs in" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     token = "usergithubtoken"
     user = create(:user)
-    stub_repos_requests(token)
 
     sign_in_as(user, token)
 
@@ -14,11 +13,10 @@ feature 'User authentication' do
   end
 
   scenario "new user signs in" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     token = "usergithubtoken"
     username = "croaky"
     user = build(:user, username: username)
-    stub_repos_requests(token)
 
     sign_in_as(user, token)
 
@@ -26,10 +24,9 @@ feature 'User authentication' do
   end
 
   scenario 'user signs out' do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     token = "usergithubtoken"
     user = create(:user)
-    stub_repos_requests(token)
 
     sign_in_as(user, token)
     find('a[href="/sign_out"]').click
