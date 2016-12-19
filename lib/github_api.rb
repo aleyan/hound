@@ -5,6 +5,9 @@ require "base64"
 class GithubApi
   ORGANIZATION_TYPE = "Organization".freeze
 
+  cattr_accessor :client
+  self.client = Octokit::Client
+
   attr_reader :file_cache, :token
 
   def initialize(token)
@@ -13,7 +16,7 @@ class GithubApi
   end
 
   def client
-    @client ||= Octokit::Client.new(access_token: token, auto_paginate: true)
+    @client ||= self.class.client.new(access_token: token, auto_paginate: true)
   end
 
   def scopes

@@ -4,6 +4,7 @@ describe BuildOwnerHoundConfig do
   describe "#run" do
     context "when the owner has a configuration set" do
       it "returns the owner's config merged with the default HoundConfig" do
+        GithubApi.client = Octokit::Client
         owner = instance_double(
           "Owner",
           has_config_repo?: true,
@@ -22,6 +23,7 @@ describe BuildOwnerHoundConfig do
 
         expect(owner_config.content).
           to eq(default_hound_config.merge("remark" => { "enabled" => true }))
+        GithubApi.client = nil
       end
     end
 
@@ -41,6 +43,7 @@ describe BuildOwnerHoundConfig do
 
     context "when the owner's configuration is unreachable" do
       it "returns the default HoundConfig" do
+        GithubApi.client = Octokit::Client
         owner = instance_double(
           "Owner",
           has_config_repo?: true,
@@ -56,6 +59,7 @@ describe BuildOwnerHoundConfig do
 
     context "when the owner's configuration is improperly formatted" do
       it "returns the default HoundConfig" do
+        GithubApi.client = Octokit::Client
         owner = instance_double(
           "Owner",
           has_config_repo?: true,

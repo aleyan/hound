@@ -2,6 +2,7 @@ require "rails_helper"
 
 feature "Admin authorization" do
   scenario "admin accesses dashboard" do
+    GithubApi.client = Octokit::Client
     stub_repos_requests(token)
     stub_admin_usernames(["admin_user", "other_admin_user"])
     admin = create(:user, username: "admin_user")
@@ -13,6 +14,7 @@ feature "Admin authorization" do
   end
 
   scenario "non-admin cannot access dashboard" do
+    GithubApi.client = Octokit::Client
     stub_repos_requests(token)
     stub_admin_usernames(["admin_user", "other_admin_user"])
     non_admin = create(:user, username: "not_admin_user")

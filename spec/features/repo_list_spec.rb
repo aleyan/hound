@@ -5,6 +5,7 @@ feature "Repo list", js: true do
   let(:user) { create(:user, token_scopes: "public_repo,user:email") }
 
   scenario "user views list of repos" do
+    GithubApi.client = Octokit::Client
     user = create(:user, token_scopes: "public_repo,user:email")
     restricted_repo = create(
       :repo,
@@ -29,6 +30,7 @@ feature "Repo list", js: true do
   end
 
   scenario "signed out user views repo list" do
+    GithubApi.client = Octokit::Client
     repo = create(:repo, name: "thoughtbot/my-repo")
     repo.users << user
 
@@ -36,6 +38,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user sees onboarding" do
+    GithubApi.client = Octokit::Client
     token = "letmein"
     stub_repos_requests(token)
 
@@ -45,6 +48,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user does not see onboarding" do
+    GithubApi.client = Octokit::Client
     build = create(:build)
     build.repo.users << user
 
@@ -54,6 +58,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user filters list" do
+    GithubApi.client = Octokit::Client
     repo1 = create_repo(name: "#{user.username}/foo")
     repo2 = create_repo(name: "#{user.username}/bar")
 
@@ -65,6 +70,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user syncs repos" do
+    GithubApi.client = Octokit::Client
     token = "letmein"
     repo = create_repo(name: "user1/test-repo")
     stub_repos_requests(token)
@@ -80,6 +86,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user signs up" do
+    GithubApi.client = Octokit::Client
     token = "letmein"
 
     stub_repos_requests(token)
@@ -89,6 +96,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user activates repo" do
+    GithubApi.client = Octokit::Client
     token = "letmein"
     repo = create_repo(private: false)
     hook_url = "http://#{ENV["HOST"]}/builds"
@@ -109,6 +117,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user with admin access activates organization repo" do
+    GithubApi.client = Octokit::Client
     token = "letmein"
     repo = create_repo(private: false, name: "testing/repo")
     hook_url = "http://#{ENV["HOST"]}/builds"
@@ -128,6 +137,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user deactivates repo" do
+    GithubApi.client = Octokit::Client
     token = "letmein"
     repo = create_repo(:active)
     stub_repo_request(repo.name, token)
@@ -147,6 +157,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user deactivates private repo without subscription" do
+    GithubApi.client = Octokit::Client
     token = "letmein"
     repo = create_repo(:active, private: true)
     stub_repo_request(repo.name, token)

@@ -4,6 +4,7 @@ describe SessionsController do
   describe "#create" do
     context "with valid new user" do
       it "creates new user" do
+        GithubApi.client = Octokit::Client
         stub_scopes_request(token: "letmein")
         request.env["omniauth.auth"] = stub_oauth(
           username: "jimtom",

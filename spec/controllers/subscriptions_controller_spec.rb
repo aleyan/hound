@@ -81,6 +81,7 @@ describe SubscriptionsController, "#create" do
 
   describe "#update" do
     it "creates a subscription" do
+      GithubApi.client = Octokit::Client
       hook_url = "http://#{ENV['HOST']}/builds"
       user = create(:user, :stripe)
       membership = create(:membership, user: user)
@@ -114,6 +115,7 @@ describe SubscriptionsController, "#create" do
 
     context "when the subscription cannot be created" do
       it "returns 'Bad Gateway'" do
+        GithubApi.client = Octokit::Client
         hook_id = 1
         hook_url = "http://#{ENV['HOST']}/builds"
         user = create(:user, :stripe)

@@ -4,6 +4,7 @@ feature "user deactivates a repo", js: true do
   context "when the user has a subscription" do
     context "when the user does not have a membership" do
       scenario "successfully deactivates the repo" do
+        GithubApi.client = Octokit::Client
         token = "letmein"
         user = create(:user, token_scopes: "public_repo,user:email")
         repo = create(:repo, :active, private: true)

@@ -2,6 +2,7 @@ require "rails_helper"
 
 feature "Listing Pricings" do
   scenario "shows all available plans", :js do
+    GithubApi.client = Octokit::Client
     user = create(:user)
     repo = create(:repo)
     sign_in_as(user, "letmein")
@@ -41,6 +42,7 @@ feature "Listing Pricings" do
   end
 
   scenario "user upgrades their subscription", :js do
+    GithubApi.client = Octokit::Client
     hook_url = "http://#{ENV['HOST']}/builds"
     user = create(:user, stripe_customer_id: stripe_customer_id)
     token = "letmein"
