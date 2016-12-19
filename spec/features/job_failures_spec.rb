@@ -15,7 +15,7 @@ feature "Job failures" do
   end
 
   scenario "Admin views all failures" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     stub_const("Hound::ADMIN_GITHUB_USERNAMES", ["foo-user"])
     user = create(:user, username: "foo-user")
     populate_failures(["Foo error", "Bar error", "Foo error"])
@@ -28,7 +28,7 @@ feature "Job failures" do
   end
 
   scenario "Cannot access as a non-admin user" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     user = create(:user)
     populate_failures(["Foo error"])
 
@@ -40,7 +40,7 @@ feature "Job failures" do
   end
 
   scenario "Admin removes job failures" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     stub_const("Hound::ADMIN_GITHUB_USERNAMES", ["foo-user"])
     user = create(:user, username: "foo-user")
     populate_failures(["Foo error", "Bar error", "Foo error"])
