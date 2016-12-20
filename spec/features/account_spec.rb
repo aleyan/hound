@@ -12,7 +12,7 @@ feature "Account" do
   end
 
   scenario "user with Stripe Customer ID", js: true do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     user = create(:user, stripe_customer_id: "123")
     stub_customer_find_request(user.stripe_customer_id)
 
