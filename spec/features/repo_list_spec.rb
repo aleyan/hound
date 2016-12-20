@@ -5,7 +5,6 @@ feature "Repo list", js: true do
   let(:user) { create(:user, token_scopes: "public_repo,user:email") }
 
   scenario "user views list of repos" do
-    GithubApi.client = FakeGithub
     user = create(:user, token_scopes: "public_repo,user:email")
     restricted_repo = create(
       :repo,
@@ -30,7 +29,6 @@ feature "Repo list", js: true do
   end
 
   scenario "signed out user views repo list" do
-    GithubApi.client = FakeGithub
     repo = create(:repo, name: "thoughtbot/my-repo")
     repo.users << user
 
@@ -38,15 +36,12 @@ feature "Repo list", js: true do
   end
 
   scenario "user sees onboarding" do
-    GithubApi.client = FakeGithub
-
     sign_in_as(user)
 
     expect(page).to have_content I18n.t("onboarding.title")
   end
 
   scenario "user does not see onboarding" do
-    GithubApi.client = FakeGithub
     build = create(:build)
     build.repo.users << user
 
@@ -56,7 +51,6 @@ feature "Repo list", js: true do
   end
 
   scenario "user filters list" do
-    GithubApi.client = FakeGithub
     repo1 = create_repo(name: "#{user.username}/foo")
     repo2 = create_repo(name: "#{user.username}/bar")
 
@@ -68,7 +62,6 @@ feature "Repo list", js: true do
   end
 
   scenario "user syncs repos" do
-    GithubApi.client = FakeGithub
     token = "letmein"
     repo = create_repo(name: "user1/test-repo")
 
@@ -83,15 +76,12 @@ feature "Repo list", js: true do
   end
 
   scenario "user signs up" do
-    GithubApi.client = FakeGithub
-
     sign_in_as(user)
 
     expect(page).to have_content I18n.t("sign_out")
   end
 
   scenario "user activates repo" do
-    GithubApi.client = FakeGithub
     token = "letmein"
 
     sign_in_as(user, token)
@@ -107,7 +97,6 @@ feature "Repo list", js: true do
   end
 
   scenario "user with admin access activates organization repo" do
-    GithubApi.client = FakeGithub
     token = "letmein"
 
     sign_in_as(user, token)
@@ -123,7 +112,6 @@ feature "Repo list", js: true do
   end
 
   scenario "user deactivates repo" do
-    GithubApi.client = FakeGithub
     token = "letmein"
     create_repo(:active)
 
@@ -140,7 +128,6 @@ feature "Repo list", js: true do
   end
 
   scenario "user deactivates private repo without subscription" do
-    GithubApi.client = FakeGithub
     token = "letmein"
     create_repo(:active, private: true)
 

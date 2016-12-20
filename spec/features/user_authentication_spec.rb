@@ -2,7 +2,6 @@ require "rails_helper"
 
 feature 'User authentication' do
   scenario "existing user signs in" do
-    GithubApi.client = FakeGithub
     token = "usergithubtoken"
     user = create(:user)
 
@@ -13,7 +12,6 @@ feature 'User authentication' do
   end
 
   scenario "new user signs in" do
-    GithubApi.client = FakeGithub
     token = "usergithubtoken"
     username = "croaky"
     user = build(:user, username: username)
@@ -24,7 +22,6 @@ feature 'User authentication' do
   end
 
   scenario 'user signs out' do
-    GithubApi.client = FakeGithub
     token = "usergithubtoken"
     user = create(:user)
 

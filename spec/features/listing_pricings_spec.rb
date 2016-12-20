@@ -2,7 +2,6 @@ require "rails_helper"
 
 feature "Listing Pricings" do
   scenario "shows all available plans", :js do
-    GithubApi.client = FakeGithub
     user = create(:user)
     repo = create(:repo)
     sign_in_as(user, "letmein")
@@ -42,7 +41,6 @@ feature "Listing Pricings" do
   end
 
   scenario "user upgrades their subscription", :js do
-    GithubApi.client = FakeGithub
     user = create(:user, stripe_customer_id: stripe_customer_id)
     token = "letmein"
     sign_in_as(user, token)

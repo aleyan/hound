@@ -27,6 +27,7 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   DatabaseCleaner.strategy = :truncation
   ActiveJob::Base.queue_adapter = :resque
+  GithubApi.client = FakeGithub
 end
 
 Capybara.configure do |config|

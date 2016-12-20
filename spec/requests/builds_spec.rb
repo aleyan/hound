@@ -12,7 +12,6 @@ RSpec.describe "POST /builds" do
 
   context "with violations" do
     it "makes a new comment and cleans up resolved one" do
-      GithubApi.client = FakeGithub
       existing_comment_violation = { line: 5, message: "Line is too long." }
       new_violation = { line: 9, message: "Trailing whitespace detected." }
       violations = [existing_comment_violation, new_violation]

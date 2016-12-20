@@ -4,11 +4,15 @@ require "lib/github_api"
 require "json"
 
 describe GithubApi do
-  before { stub_const("Hound::GITHUB_TOKEN", "token") }
+  before do
+    stub_const("Hound::GITHUB_TOKEN", "token")
+    GithubApi.client = Octokit::Client
+  end
+
+  after { GithubApi.client = FakeGithub }
 
   describe "#repos" do
     it "fetches all repos from Github" do
-      GithubApi.client = Octokit::Client
       token = "something"
       api = GithubApi.new(token)
       stub_repos_requests(token)
@@ -16,13 +20,11 @@ describe GithubApi do
       repos = api.repos
 
       expect(repos.size).to eq 2
-      GithubApi.client = nil
     end
   end
 
   describe "#scopes" do
     it "returns scopes as a string" do
-      GithubApi.client = Octokit::Client
       token = "token"
       api = GithubApi.new(token)
       stub_scopes_request(token: token, scopes: "repo,user:email")
@@ -30,14 +32,12 @@ describe GithubApi do
       scopes = api.scopes
 
       expect(scopes).to eq "repo,user:email"
-      GithubApi.client = nil
     end
   end
 
   describe "#file_contents" do
     context "used multiple times with same arguments" do
       it "requests file content once" do
-        GithubApi.client = Octokit::Client
         client = double("Octokit::Client", contents: "filecontent")
         allow(Octokit::Client).to receive(:new).and_return(client)
         token = "authtoken"
@@ -60,7 +60,6 @@ describe GithubApi do
           path: filename,
           ref: sha
         ).once
-        GithubApi.client = nil
       end
     end
   end
@@ -68,7 +67,6 @@ describe GithubApi do
   describe "#create_hook" do
     context "when hook does not exist" do
       it "creates pull request web hook" do
-        GithubApi.client = Octokit::Client
         callback_endpoint = "http://example.com"
         token = "something"
         api = GithubApi.new(token)
@@ -81,11 +79,9 @@ describe GithubApi do
         api.create_hook(full_repo_name, callback_endpoint)
 
         expect(request).to have_been_requested
-        GithubApi.client = nil
       end
 
       it "yields hook" do
-        GithubApi.client = Octokit::Client
         callback_endpoint = "http://example.com"
         token = "something"
         api = GithubApi.new(token)
@@ -102,13 +98,11 @@ describe GithubApi do
 
         expect(request).to have_been_requested
         expect(yielded).to be_truthy
-        GithubApi.client = nil
       end
     end
 
     context "when hook already exists" do
       it "does not raise" do
-        GithubApi.client = Octokit::Client
         callback_endpoint = "http://example.com"
         stub_failed_hook_creation_request(full_repo_name, callback_endpoint)
         api = GithubApi.new(Hound::GITHUB_TOKEN)
@@ -116,24 +110,20 @@ describe GithubApi do
         expect do
           api.create_hook(full_repo_name, callback_endpoint)
         end.not_to raise_error
-        GithubApi.client = nil
       end
 
       it "returns true" do
-        GithubApi.client = Octokit::Client
         callback_endpoint = "http://example.com"
         stub_failed_hook_creation_request(full_repo_name, callback_endpoint)
         api = GithubApi.new(Hound::GITHUB_TOKEN)
 
         expect(api.create_hook(full_repo_name, callback_endpoint)).to eq true
-        GithubApi.client = nil
       end
     end
   end
 
   describe "#remove_hook" do
     it "removes pull request web hook" do
-      GithubApi.client = Octokit::Client
       hook_id = "123"
       stub_hook_removal_request(full_repo_name, hook_id)
       api = GithubApi.new(Hound::GITHUB_TOKEN)
@@ -141,11 +131,9 @@ describe GithubApi do
       response = api.remove_hook(full_repo_name, hook_id)
 
       expect(response).to be_truthy
-      GithubApi.client = nil
     end
 
     it "yields given block" do
-      GithubApi.client = Octokit::Client
       hook_id = "123"
       stub_hook_removal_request(full_repo_name, hook_id)
       api = GithubApi.new(Hound::GITHUB_TOKEN)
@@ -156,13 +144,11 @@ describe GithubApi do
       end
 
       expect(yielded).to eq true
-      GithubApi.client = nil
     end
   end
 
   describe "#pull_request_files" do
     it "returns changed files in a pull request" do
-      GithubApi.client = Octokit::Client
       api = GithubApi.new(Hound::GITHUB_TOKEN)
       pull_request = double("PullRequest", full_repo_name: full_repo_name)
       pr_number = 123
@@ -177,13 +163,11 @@ describe GithubApi do
 
       expect(files.size).to eq(1)
       expect(files.first.filename).to eq "spec/models/style_guide_spec.rb"
-      GithubApi.client = nil
     end
   end
 
   describe "#add_pull_request_comment" do
     it "adds comment to GitHub pull request" do
-      GithubApi.client = Octokit::Client
       api = GithubApi.new("authtoken")
       pull_request_number = 2
       comment = "test comment"
@@ -209,13 +193,11 @@ describe GithubApi do
       )
 
       expect(request).to have_been_requested
-      GithubApi.client = nil
     end
   end
 
   describe "#pull_request_comments" do
     it "returns comments added to pull request" do
-      GithubApi.client = Octokit::Client
       api = GithubApi.new(Hound::GITHUB_TOKEN)
       pull_request = double("PullRequest", full_repo_name: full_repo_name)
       pull_request_id = 253
@@ -243,7 +225,6 @@ describe GithubApi do
 
   describe "#create_pending_status" do
     it "makes request to GitHub for creating a pending status" do
-      GithubApi.client = Octokit::Client
       api = GithubApi.new(Hound::GITHUB_TOKEN)
       request = stub_status_request(
         "test/repo",
@@ -260,7 +241,6 @@ describe GithubApi do
 
   describe "#create_success_status" do
     it "makes request to GitHub for creating a success status" do
-      GithubApi.client = Octokit::Client
       api = GithubApi.new(Hound::GITHUB_TOKEN)
       request = stub_status_request(
         "test/repo",
@@ -277,7 +257,6 @@ describe GithubApi do
 
   describe "#create_error_status" do
     it "makes request to GitHub for creating an error status" do
-      GithubApi.client = Octokit::Client
       api = GithubApi.new(Hound::GITHUB_TOKEN)
       request = stub_status_request(
         "test/repo",
@@ -294,7 +273,6 @@ describe GithubApi do
 
   describe "#add_collaborator" do
     it "makes a request to GitHub" do
-      GithubApi.client = Octokit::Client
       username = "houndci"
       api = GithubApi.new(token)
       request = stub_add_collaborator_request(username, full_repo_name, token)
@@ -307,7 +285,6 @@ describe GithubApi do
 
   describe "#remove_collaborator" do
     it "makes a request to GitHub" do
-      GithubApi.client = Octokit::Client
       username = "houndci"
       api = GithubApi.new(token)
       request = stub_remove_collaborator_request(
