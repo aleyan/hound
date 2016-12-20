@@ -152,12 +152,7 @@ describe GithubApi do
       api = GithubApi.new(Hound::GITHUB_TOKEN)
       pull_request = double("PullRequest", full_repo_name: full_repo_name)
       pr_number = 123
-      commit_sha = "abc123"
       stub_pull_request_files_request(pull_request.full_repo_name, pr_number)
-      stub_contents_request(
-        repo_name: pull_request.full_repo_name,
-        sha: commit_sha
-      )
 
       files = api.pull_request_files(pull_request.full_repo_name, pr_number)
 
@@ -201,16 +196,11 @@ describe GithubApi do
       api = GithubApi.new(Hound::GITHUB_TOKEN)
       pull_request = double("PullRequest", full_repo_name: full_repo_name)
       pull_request_id = 253
-      commit_sha = "abc253"
       expected_comment = "Line is too long."
       stub_pull_request_comments_request(
         pull_request.full_repo_name,
         pull_request_id,
         "houndci-bot",
-      )
-      stub_contents_request(
-        repo_name: pull_request.full_repo_name,
-        sha: commit_sha
       )
 
       comments = api.pull_request_comments(
