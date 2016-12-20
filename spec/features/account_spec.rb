@@ -143,7 +143,7 @@ feature "Account" do
   end
 
   scenario "user updates their email address", :js do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     email_address = "somebody.else@example.com"
     stub_customer_find_request
     stub_customer_update_request(email: email_address)
