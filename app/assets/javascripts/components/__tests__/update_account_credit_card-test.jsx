@@ -9,3 +9,14 @@ it('renders appropriately', () => {
   );
   expect(wrapper).toMatchSnapshot();
 });
+
+it('renders appropriately without Stripe customer ID', () => {
+  const wrapper = shallow(
+    <UpdateAccountCreditCard
+      authenticity_token={"csrf_token"}
+      stripe_customer_id_present={false}
+    />
+  );
+  expect(wrapper).toMatchSnapshot();
+});
+
