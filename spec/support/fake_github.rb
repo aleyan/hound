@@ -8,22 +8,21 @@ class FakeGithub
   self.comments = []
 
   def initialize(_)
-
   end
 
-  def add_collaborator(*args)
+  def add_collaborator(*_args)
     true
   end
 
-  def create_hook(*args)
+  def create_hook(*_args)
     Hook.new(1)
   end
 
-  def create_status(*args)
+  def create_status(*_args)
     {}
   end
 
-  def contents(*args)
+  def contents(*_args)
     Content.new("U3RyaW5nTGl0ZXJhbHM6CiAgRW5hYmxlZDogZmFsc2UK\n")
   end
 
@@ -44,7 +43,7 @@ class FakeGithub
     ]
   end
 
-  def pull_request_files(*args)
+  def pull_request_files(*_args)
     [
       File.new("spec/models/style_guide_spec.rb", <<-PATCH, "added")
 @@ -0,0 +1,22 @@
@@ -74,11 +73,11 @@ class FakeGithub
     ]
   end
 
-  def remove_collaborator(*args)
+  def remove_collaborator(*_args)
     true
   end
 
-  def remove_hook(*args)
+  def remove_hook(*_args)
     true
   end
 
