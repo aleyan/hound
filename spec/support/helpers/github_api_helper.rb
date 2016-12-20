@@ -21,32 +21,6 @@ module GithubApiHelper
     )
   end
 
-  def stub_repo_request(repo_name, token)
-    stub_request(
-      :get,
-      "https://api.github.com/repos/#{repo_name}"
-    ).with(
-      headers: { 'Authorization' => "token #{token}" }
-    ).to_return(
-      status: 200,
-      body: read_fixture("repo.json").gsub("testing/repo", repo_name),
-      headers: { 'Content-Type' => 'application/json; charset=utf-8' }
-    )
-  end
-
-  def stub_repo_with_org_request(repo_name, token = hound_token)
-    stub_request(
-      :get,
-      "https://api.github.com/repos/#{repo_name}"
-    ).with(
-      headers: { 'Authorization' => "token #{token}" }
-    ).to_return(
-      status: 200,
-      body: read_fixture("repo_with_org.json"),
-      headers: { 'Content-Type' => 'application/json; charset=utf-8' }
-    )
-  end
-
   def stub_hook_creation_request(full_repo_name, callback_endpoint, token)
     stub_request(
       :post,
@@ -80,19 +54,6 @@ module GithubApiHelper
     stub_request(:delete, url).
       with(headers: { 'Authorization' => /^token \w+$/ }).
       to_return(status: 204)
-  end
-
-  def stub_commit_request(full_repo_name, commit_sha)
-    stub_request(
-      :get,
-      "https://api.github.com/repos/#{full_repo_name}/commits/#{commit_sha}"
-    ).with(
-      headers: { "Authorization" => "token #{hound_token}" }
-    ).to_return(
-      status: 200,
-      body: read_fixture("commit.json"),
-      headers: { 'Content-Type' => 'application/json; charset=utf-8' }
-    )
   end
 
   def stub_pull_request_files_request(full_repo_name, pull_request_number)
@@ -218,21 +179,6 @@ module GithubApiHelper
       to_return(status: 200, body: "[]", headers: headers)
   end
 
-  def stub_status_requests(repo_name, sha)
-    stub_status_request(
-      repo_name,
-      sha,
-      "pending",
-      "Hound is busy reviewing changes..."
-    )
-    stub_status_request(
-      repo_name,
-      sha,
-      "success",
-      anything
-    )
-  end
-
   def stub_status_request(repo_name, sha, state, description, target_url = nil)
     stub_request(
       :post,
@@ -241,11 +187,6 @@ module GithubApiHelper
       headers: { "Authorization" => "token #{hound_token}" },
       body: status_request_body(description, state, target_url),
     ).to_return(status_request_return_value)
-  end
-
-  def stub_success_on_repo(repo_name)
-    stub_request(:get, "https://api.github.com/repos/#{repo_name}").
-      to_return(status: 200, body: "", headers: {})
   end
 
   def status_request_return_value
