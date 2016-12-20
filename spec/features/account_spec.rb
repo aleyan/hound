@@ -23,7 +23,7 @@ feature "Account" do
   end
 
   scenario "returns a list of all pricings", :js do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     user = create(:user)
     sign_in_as(user, "letmein")
 
