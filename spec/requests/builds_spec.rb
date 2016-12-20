@@ -12,7 +12,7 @@ RSpec.describe "POST /builds" do
 
   context "with violations" do
     it "makes a new comment and cleans up resolved one" do
-      GithubApi.client = Octokit::Client
+      GithubApi.client = FakeGithub
       filename = "spec/models/style_guide_spec.rb"
       existing_comment_violation = { line: 5, message: "Line is too long." }
       new_violation = { line: 9, message: "Trailing whitespace detected." }
@@ -37,7 +37,16 @@ RSpec.describe "POST /builds" do
 
       post builds_path, payload: payload
 
-      expect(new_comment_request).to have_been_requested
+      # expect(new_comment_request).to have_been_requested
+      comments = FakeGithub.comments
+      comment = comments.first
+      expect(comments.length).to eq 1
+      expect(comment.repo).to eq "salbertson/life"
+      expect(comment.pull_id).to eq 2
+      expect(comment.body).to eq "Trailing whitespace detected."
+      expect(comment.commit_id).to eq "498b81cd038f8a3ac02f035a8537b7ddcff38a81"
+      expect(comment.path).to eq "spec/models/style_guide_spec.rb"
+      expect(comment.position).to eq 9
     end
   end
 
