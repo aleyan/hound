@@ -157,7 +157,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user deactivates private repo without subscription" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     token = "letmein"
     repo = create_repo(:active, private: true)
     stub_repo_request(repo.name, token)
