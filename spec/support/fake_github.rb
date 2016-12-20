@@ -14,7 +14,15 @@ class FakeGithub
   end
 
   def repos
-    []
+    [
+      {
+        full_name: "jimtom/My-Private-Repo",
+        id: 1296269,
+        owner: { id: 1, login: "jimtom" },
+        permissions: { admin: true },
+        private: false,
+      },
+    ]
   end
 
   def scopes(_)
