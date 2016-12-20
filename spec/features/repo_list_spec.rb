@@ -86,7 +86,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user signs up" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     token = "letmein"
 
     stub_repos_requests(token)
@@ -96,7 +96,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user activates repo" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     token = "letmein"
     repo = create_repo(private: false)
     hook_url = "http://#{ENV["HOST"]}/builds"
@@ -117,7 +117,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user with admin access activates organization repo" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     token = "letmein"
     repo = create_repo(private: false, name: "testing/repo")
     hook_url = "http://#{ENV["HOST"]}/builds"
@@ -137,7 +137,7 @@ feature "Repo list", js: true do
   end
 
   scenario "user deactivates repo" do
-    GithubApi.client = Octokit::Client
+    GithubApi.client = FakeGithub
     token = "letmein"
     repo = create_repo(:active)
     stub_repo_request(repo.name, token)

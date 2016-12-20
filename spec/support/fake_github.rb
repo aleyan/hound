@@ -13,6 +13,10 @@ class FakeGithub
     Hook.new(1)
   end
 
+  def remove_hook(*args)
+    true
+  end
+
   def repos
     [
       {
